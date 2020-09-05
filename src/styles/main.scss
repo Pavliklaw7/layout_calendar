@@ -1,3 +1,68 @@
+$weekDay: (
+  "mon": 1px,
+  "tue": 103px,
+  "wed": 205px,
+  "thu": 307px,
+  "fri": 409px,
+  "sat": 501px,
+  "sun": 603px
+);
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Arial, serif;
+}
+
 body {
   margin: 0;
+}
+
+.calendar {
+  width: 714px;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 30px;
+  margin: 100px auto;
+
+  div {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border: 1px solid black;
+    background-color: #eee;
+    margin: 1px;
+    display: none;
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+      transform: translateY(-20px);
+      background-color: pink;
+    }
+  }
+}
+
+@for $i from 1 through 31 {
+  .calendar div:nth-of-type(#{$i})::after {
+    content: "#{$i}";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .calendar-#{$i} div:nth-of-type(-1n + #{$i}) {
+    display: block;
+  }
+}
+
+@each $day, $left-margin in $weekDay {
+  .calendar-#{$day} div:first-child {
+    margin-left: $left-margin;
+
+  }
 }
